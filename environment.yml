@@ -1,0 +1,12 @@
+name: AoC-2024
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.13
+  - click
+  - pip
+  - pip:
+    - pytest
+    - requests
+    - python-dotenv
