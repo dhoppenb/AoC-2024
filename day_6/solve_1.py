@@ -59,6 +59,8 @@ def path_length(data_matrix: list[str]) -> int:
         # print the path for debug
         # pprint.pprint(data_matrix)
 
+    if loop_count == 1e4:
+        return -1
     return len(visited)
 
 def solve(data: str):
