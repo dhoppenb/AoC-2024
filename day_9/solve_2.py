@@ -1,4 +1,5 @@
 import timeit
+from queue import PriorityQueue
 
 test_data = """2333133121414131402"""
 test_answer = 2858
@@ -14,8 +15,8 @@ def checksum(diskstring: list[int]) -> int:
             result += i * ID
     return result
 
-def map_to_disk(diskmap: str) -> list[int]:
-    free_blocks = []
+def map_to_disk(diskmap: str)-> tuple[list, list]:
+    regions = []    
 
     index = 0
     isFile = True
@@ -23,12 +24,13 @@ def map_to_disk(diskmap: str) -> list[int]:
     for i, c in enumerate(diskmap):
         if isFile:
             result += [index] * int(c)
+            regions.append((i, index, int(c)))
             index += 1
         else:
             result += [-1] * int(c)
-            free_blocks.append((i,int(c))) 
+            regions.append((i,-1,int(c))) 
         isFile = not isFile
-    return result, free_blocks
+    return result, regions
 
 def compact(disk: list[int]) -> list[int]:
     start, end = 0, len(disk)
@@ -49,11 +51,16 @@ def compact(disk: list[int]) -> list[int]:
 def compact2(disk: list[int], free_blocks) -> list[int]:
     
     return [1,2,3,4]
-
+'''
+Files are now moved in their entirety
+Use a list of blocksets [(start_ix, id_1, len_1), (start_ix+len_1, -1, len), ...]
+Potentially storing start index for easier reconstruction
+'''
 def solve(data: str):
     # Done
     disk, free_blocks = map_to_disk(data)
-    print(free_blocks)
+    print(f'disk: {disk}')
+    print(f'free blocks: {free_blocks}')
 
     # Done
     compacted = compact2(disk, free_blocks)
